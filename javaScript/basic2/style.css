@@ -1,0 +1,19 @@
+.container{
+    display: grid;
+    align-content: center;
+    justify-content: centre;
+    text-align: center;
+    width: 60vw;
+    height: 60vh;
+    margin: auto;
+    border: 1px solid black;
+
+
+}
+
+p{
+    margin: 20px;
+}
+
+
+   
