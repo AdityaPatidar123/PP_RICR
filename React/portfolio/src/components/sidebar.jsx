@@ -16,40 +16,40 @@ const Sidebar = () => {
 
        <div className="container p-5 flex flex-col items-center">
         <ul>
-                    <li>
-                    <NavLink to={"/"}>
-                    <span className='text-amber-700 font-bold text-2xl'>Home</span>   
-                    </NavLink>
-                    </li>
-            
-                <li>
-                <NavLink to={"/exp"}>
-                <span className='text-amber-700 font-bold text-2xl'>Experience</span>   
-                </NavLink>
-                </li>
+              <li>
+              <NavLink to={"/"}>
+              <span className='text-amber-700 font-bold text-2xl'>Home</span>   
+              </NavLink>
+              </li>
+          
+              <li>
+              <NavLink to={"/exp"}>
+              <span className='text-amber-700 font-bold text-2xl'>Experience</span>   
+              </NavLink>
+              </li>
 
-                <li>
-                <NavLink to={"/pro"}>
-                <span className='text-amber-700 font-bold text-2xl'>Projects</span>   
-                </NavLink>
-                </li>
-                <li>
-                <NavLink to={"/qual"}>
-                <span className='text-amber-700 font-bold text-2xl'>Qualification</span>   
-                </NavLink></li>
+              <li>
+              <NavLink to={"/pro"}>
+              <span className='text-amber-700 font-bold text-2xl'>Projects</span>   
+              </NavLink>
+              </li>
+              <li>
+              <NavLink to={"/qual"}>
+              <span className='text-amber-700 font-bold text-2xl'>Qualification</span>   
+              </NavLink></li>
 
-                <li>
-                <NavLink to={"/hob"}>
-                <span className='text-amber-700 font-bold text-2xl'>Hobbies</span>   
-                </NavLink>
-                </li>
+              <li>
+              <NavLink to={"/hob"}>
+              <span className='text-amber-700 font-bold text-2xl'>Hobbies</span>   
+              </NavLink>
+              </li>
 
-                <li>
-                <NavLink to={"/con"}>
-                <span className='text-amber-700 font-bold text-2xl'>Contact Me</span>   
-                </NavLink>
-                
-                </li>
+              <li>
+              <NavLink to={"/con"}>
+              <span className='text-amber-700 font-bold text-2xl'>Contact Me</span>   
+              </NavLink>
+              
+              </li>
         </ul>
        
          
