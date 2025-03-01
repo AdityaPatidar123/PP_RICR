@@ -1,18 +1,22 @@
-import React from 'react'
-import Header from "./components/header"
-import Home from "./pages/home"
+import React from 'react';
+import Header from './components/header';
+import About from './pages/about';
+import Skills from './pages/skills';
+import Projects from './pages/projects';
+import Contact from './pages/contact';
+import Home from './pages/home'
+
 const App = () => {
   return (
-    <>
-      <header>
-        <Header/>
-      </header>
-      <main>
-        <Home/>
+    <div className="App">
+      <Header />
+       <Home/>
+      <About />
+      <Skills />
+      <Projects />
+      <Contact />
+    </div>
+  );
+};
 
-      </main>
-    </>
-  )
-}
-
-export default App
+export default App;
