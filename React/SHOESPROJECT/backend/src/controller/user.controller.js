@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import generateToken from "../lib/auth.js";
 
 export const userSignup = async (req, res, next) => {
   try {
@@ -30,7 +31,7 @@ export const userSignup = async (req, res, next) => {
       mobile,
     });
 
-    res.status(201).json({ message: "User Signup Sucessfull", newUser });
+    res.status(201).json({ message: "Welcome to the World of Footware !!" });
   } catch (error) {
     error.statusCode = 400;
     next(error);
@@ -56,7 +57,7 @@ export const userLogin = async (req, res, next) => {
     }
 
     const getUser = await User.findOne({ email });
-    if (email !== getUser) {
+    if (email !== getUser.email) {
       const er = new Error("User not Found !!");
       er.statusCode = 404;
       next(er);
@@ -71,6 +72,8 @@ export const userLogin = async (req, res, next) => {
       return;
     }
 
+    generateToken(getUser._id, res);
+
     res.status(200).json({ message: `Welcome back ${getUser.fullName}` });
   } catch (error) {
     error.statusCode = 400;
@@ -78,35 +81,63 @@ export const userLogin = async (req, res, next) => {
   }
 };
 
-export const userLogout = (req, res, next) => {
+
+
+export const userUpdate = async (req, res, next) => {
   try {
-    res.status(200).json({ message: "User Logout Sucessfull" });
+    const { fullName, gender, age, mobile } = req.body;
+    const userID = req.verifiedUser._id;
+
+    const UpdatedUser = await User.findByIDAndUpdate({_id:userID}, {
+    fullName,
+    gender,
+    age,
+    mobile,
+    });
+
+    res.status(200).json({ message: "User Update Sucessfull", UpdatedUser });
   } catch (error) {
     error.statusCode = 400;
     next(error);
   }
 };
 
-export const userUpdate = (req, res, next) => {
+export const userReset = async (req, res, next) => {
   try {
-    res.status(200).json({ message: "User Update Sucessfull" });
+    const { oldPassword, newPassword } = req.body;
+    const userID = req.verifiedUser._id;
+
+    const checkpassword = await bcrypt.compare(
+      oldPassword,
+      req.verifiedUser.password
+    );
+    if (!checkpassword) {
+      const er = new Error("Icorrect Password");
+      er.statusCode = 401;
+      next(er);
+      return;
+    }
+
+    const encryptedPassward = await bcrypt.hash(newPassword, 10);
+
+    const UpdatedUser = await User.findByIDAndUpdate({_id:userID}, {
+      password: encryptedPassward,
+    });
+    
+    res.status(200).json({ message: "Password Change Sucessfull" });
   } catch (error) {
     error.statusCode = 400;
     next(error);
   }
 };
 
-export const userReset = (req, res, next) => {
+export const userDelete = async(req, res, next) => {
   try {
-    res.status(200).json({ message: "User Reset Sucessfull" });
-  } catch (error) {
-    error.statusCode = 400;
-    next(error);
-  }
-};
+    const userID = req.verifiedUser._id;
+    const confimDelete = await User.findByIDAndDelete({_id:userID});
 
-export const userDelete = (req, res, next) => {
-  try {
+
+
     res.status(200).json({ message: "User Delete Sucessfull" });
   } catch (error) {
     error.statusCode = 400;
@@ -116,7 +147,19 @@ export const userDelete = (req, res, next) => {
 
 export const userCheck = (req, res, next) => {
   try {
-    res.status(200).json({ message: "User Check Sucessfull" });
+    const {fullName,email,gender,age,mobile}= req.verifiedUser;
+
+    res.status(200).json( {fullName,email,gender,age,mobile});
+  } catch (error) {
+    error.statusCode = 400;
+    next(error);
+  }
+};
+
+
+export const userLogout = (req, res, next) => {
+  try {
+    res.status(200).json({ message: "User Logout Sucessfull" });
   } catch (error) {
     error.statusCode = 400;
     next(error);
