@@ -1,8 +1,9 @@
 import express from "express";
-//import cors from "cors";
+import cors from "cors";
 import bodyParser from "body-parser";
 import userRoutes from "./src/routes/user.routes.js";
 import connectDB from "./src/lib/db.js";
+import cookieParser from "cookie-parser";
 
 //create Express Instance
 const app = express();
@@ -12,6 +13,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
+
+//parser cookie data
+app.use(cookieParser());
 
 //creating Routes
 app.use("/api/user", userRoutes);

@@ -12,12 +12,22 @@ export const userLog = (req, res, next) => {
 };
 
 export const confirmUser = async (req, res, next) => {
-  const token = req.cookies.jwt;
+  try {
+    const token = req.cookies.jwt;
+    if (!token) {
+      const er = new Error("Session Expired ! Please Login Again");
+      er.statusCode = 401;
+      next(er);
+      return;
+    }
 
-  const decode = jwt.verify(token, process.env.JWT_SECRET);
+    const decode = jwt.verify(token, process.env.JWT_SECRET);
 
-  const verfiedUser = await user.findByID(decode.key)          //.select("-password"); ,for remove password
+    const verfiedUser = await user.findById(decode.key); //.select("-password"); ,for remove password
 
-  req.verfiedUser = verfiedUser;
-  next();
+    req.verfiedUser = verfiedUser;
+  } catch (error) {
+    error.statusCode = 400;
+    next(error);
+  }
 };

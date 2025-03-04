@@ -81,19 +81,21 @@ export const userLogin = async (req, res, next) => {
   }
 };
 
-
-
 export const userUpdate = async (req, res, next) => {
   try {
     const { fullName, gender, age, mobile } = req.body;
-    const userID = req.verifiedUser._id;
+    const userID = req.verfiedUser._id;
 
-    const UpdatedUser = await User.findByIDAndUpdate({_id:userID}, {
-    fullName,
-    gender,
-    age,
-    mobile,
-    });
+    const UpdatedUser = await User.findByIdAndUpdate(
+      { _id: userID },
+      {
+        fullName,
+        gender,
+        age,
+        mobile,
+      },
+      { new: true }
+    );
 
     res.status(200).json({ message: "User Update Sucessfull", UpdatedUser });
   } catch (error) {
@@ -105,11 +107,11 @@ export const userUpdate = async (req, res, next) => {
 export const userReset = async (req, res, next) => {
   try {
     const { oldPassword, newPassword } = req.body;
-    const userID = req.verifiedUser._id;
+    const userID = req.verfiedUser._id;
 
     const checkpassword = await bcrypt.compare(
       oldPassword,
-      req.verifiedUser.password
+      req.verfiedUser.password
     );
     if (!checkpassword) {
       const er = new Error("Icorrect Password");
@@ -120,10 +122,13 @@ export const userReset = async (req, res, next) => {
 
     const encryptedPassward = await bcrypt.hash(newPassword, 10);
 
-    const UpdatedUser = await User.findByIDAndUpdate({_id:userID}, {
-      password: encryptedPassward,
-    });
-    
+    const UpdatedUser = await User.findByIdAndUpdate(
+      { _id: userID },
+      {
+        password: encryptedPassward,
+      }
+    );
+
     res.status(200).json({ message: "Password Change Sucessfull" });
   } catch (error) {
     error.statusCode = 400;
@@ -131,12 +136,10 @@ export const userReset = async (req, res, next) => {
   }
 };
 
-export const userDelete = async(req, res, next) => {
+export const userDelete = async (req, res, next) => {
   try {
-    const userID = req.verifiedUser._id;
-    const confimDelete = await User.findByIDAndDelete({_id:userID});
-
-
+    const userID = req.verfiedUser._id;
+    const confimDelete = await User.findByIdAndDelete({ _id: userID });
 
     res.status(200).json({ message: "User Delete Sucessfull" });
   } catch (error) {
@@ -147,18 +150,18 @@ export const userDelete = async(req, res, next) => {
 
 export const userCheck = (req, res, next) => {
   try {
-    const {fullName,email,gender,age,mobile}= req.verifiedUser;
+    const { fullName, email, gender, age, mobile } = req.verfiedUser;
 
-    res.status(200).json( {fullName,email,gender,age,mobile});
+    res.status(200).json({ fullName, email, gender, age, mobile });
   } catch (error) {
     error.statusCode = 400;
     next(error);
   }
 };
 
-
 export const userLogout = (req, res, next) => {
   try {
+    res.cookie("jwt",)
     res.status(200).json({ message: "User Logout Sucessfull" });
   } catch (error) {
     error.statusCode = 400;
