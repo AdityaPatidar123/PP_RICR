@@ -11,14 +11,19 @@ const Currency = () => {
     const base = document.getElementById("baseCurrency").value.trim();
     const currency = document.getElementById("Currency").value.trim();
 
+    const URL1 = `https://api.currencyapi.com/v3/latest?apikey=${API_KEY}`;
+    const res1 = await fetch(URL1);
+      const data1 = await res1.json();
+      const v = data1.data.key;
+
     
     if (!base || !currency || !amount || amount <= 0) {
       alert("Please provide valid base and target currency.");
       return;
     }
-
+    
     const URL = `https://api.currencyapi.com/v3/latest?apikey=${API_KEY}&currencies=${currency}&base_currency=${base}`;
-
+    
     try {
       setLoading(true);
       setError(null);
@@ -42,7 +47,7 @@ const Currency = () => {
   return (
     <>
       <div className="text-center text-amber-500 text-3xl font-bold py-5">Currency Converter</div>
-      <div className="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-md">
+      <div className="container mx-auto p-6 bg-lime-100 rounded-lg shadow-lg max-w-md">
         <label htmlFor="amount" className="block text-gray-700 font-semibold mb-2">Amount</label>
         <input
           type="number"
